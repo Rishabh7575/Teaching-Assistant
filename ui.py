@@ -1,11 +1,14 @@
 import sys
 import webbrowser
+import ctypes
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, 
-                             QPushButton, QTextBrowser, QApplication)
-from PyQt6.QtCore import Qt, QPoint, QTimer
+                             QPushButton, QTextBrowser, QApplication, QLineEdit)
+from PyQt6.QtCore import Qt, QPoint, QTimer, pyqtSignal
 from PyQt6.QtGui import QColor, QPalette, QGuiApplication
 
 class FloatingPanel(QWidget):
+    signal_send_followup = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
         
@@ -13,6 +16,13 @@ class FloatingPanel(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Tool)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, False)
         self.resize(400, 500)
+        
+        # DWM Stealth: Exclude from screen capture (Zoom, Teams, Meet)
+        hwnd = self.winId()
+        try:
+            ctypes.windll.user32.SetWindowDisplayAffinity(int(hwnd), 0x00000011)
+        except Exception:
+            pass
         
         # Position on the right side of the screen
         screen = QGuiApplication.primaryScreen().geometry()
@@ -95,10 +105,30 @@ class FloatingPanel(QWidget):
         self.bottom_layout.addWidget(self.btn_stop_rec)
         self.bottom_layout.addStretch()
 
+        # Follow-up Chat UI
+        self.chat_layout = QHBoxLayout()
+        self.chat_input = QLineEdit()
+        self.chat_input.setPlaceholderText("Ask a follow-up question...")
+        self.chat_input.setStyleSheet("""
+            QLineEdit {
+                background-color: #313244;
+                border: 1px solid #45475a;
+                border-radius: 5px;
+                padding: 5px;
+                color: #cdd6f4;
+            }
+        """)
+        self.btn_send = QPushButton("Send")
+        self.chat_layout.addWidget(self.chat_input)
+        self.chat_layout.addWidget(self.btn_send)
+        self.chat_input.returnPressed.connect(self.send_followup)
+        self.btn_send.clicked.connect(self.send_followup)
+
         # Add to main layout
         main_layout.addLayout(header_layout)
         main_layout.addWidget(self.content_browser)
         main_layout.addLayout(self.bottom_layout)
+        main_layout.addLayout(self.chat_layout)
         
         # Dragging variables
         self.old_pos = None
@@ -199,6 +229,12 @@ class FloatingPanel(QWidget):
     def hide_panel(self):
         self.hide()
 
+    def send_followup(self):
+        text = self.chat_input.text().strip()
+        if text:
+            self.signal_send_followup.emit(text)
+            self.chat_input.clear()
+
     def copy_summary(self):
         QApplication.clipboard().setText(self.summary_text)
 
@@ -225,6 +261,14 @@ class NotificationToaster(QWidget):
         super().__init__()
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Tool)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        
+        # DWM Stealth: Exclude from screen capture
+        hwnd = self.winId()
+        try:
+            ctypes.windll.user32.SetWindowDisplayAffinity(int(hwnd), 0x00000011)
+        except Exception:
+            pass
+            
         self.setStyleSheet("""
             QWidget {
                 background-color: #f38ba8;
