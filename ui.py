@@ -133,21 +133,21 @@ class FloatingPanel(QWidget):
  # pushed till here
 
 
-#         # Add to main layout
-#         main_layout.addLayout(header_layout)
-#         main_layout.addWidget(self.content_browser)
-#         main_layout.addLayout(self.bottom_layout)
-#         main_layout.addLayout(self.chat_layout)
+        # Add to main layout
+        main_layout.addLayout(header_layout)
+        main_layout.addWidget(self.content_browser)
+        main_layout.addLayout(self.bottom_layout)
+        main_layout.addLayout(self.chat_layout)
         
-#         # Dragging & Resizing variables
-#         self.old_pos = None
-#         self.is_resizing = False
-#         self.resize_direction = None
-#         self.drag_position = None
-#         self.pinned = False
+        # Dragging & Resizing variables
+        self.old_pos = None
+        self.is_resizing = False
+        self.resize_direction = None
+        self.drag_position = None
+        self.pinned = False
         
-#         self.summary_text = ""
-#         self.resources = []
+        self.summary_text = ""
+        self.resources = []
         
 #         # Animation timer for micro-animation (e.g. listening indicator)
 #         self.listening_timer = QTimer()
