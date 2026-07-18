@@ -130,9 +130,7 @@ class FloatingPanel(QWidget):
         self.btn_send.clicked.connect(self.send_followup)
 
 
- # pushed till here
-
-
+ 
         # Add to main layout
         main_layout.addLayout(header_layout)
         main_layout.addWidget(self.content_browser)
@@ -149,42 +147,44 @@ class FloatingPanel(QWidget):
         self.summary_text = ""
         self.resources = []
         
-#         # Animation timer for micro-animation (e.g. listening indicator)
-#         self.listening_timer = QTimer()
-#         self.listening_timer.timeout.connect(self.animate_listening)
-#         self.listen_dots = 0
+        # Animation timer for micro-animation (e.g. listening indicator)
+        self.listening_timer = QTimer()
+        self.listening_timer.timeout.connect(self.animate_listening)
+        self.listen_dots = 0
 
-#     def set_content(self, data):
-#         """
-#         data expected format:
-#         {
-#             "topic_summary": "...",
-#             "key_points": ["...", "..."],
-#             "resources": [{"title": "...", "link": "..."}]
-#         }
-#         """
-#         self.listening_timer.stop()
-#         self.set_recording_mode(False)
-#         self.summary_text = data.get("topic_summary", "")
-#         key_points = data.get("key_points", [])
-#         self.resources = data.get("resources", [])
+    def set_content(self, data):
+        """
+        data expected format:
+        {
+            "topic_summary": "...",
+            "key_points": ["...", "..."],
+            "resources": [{"title": "...", "link": "..."}]
+        }
+        """
+        self.listening_timer.stop()
+        self.set_recording_mode(False)
+        self.summary_text = data.get("topic_summary", "")
+        key_points = data.get("key_points", [])
+        self.resources = data.get("resources", [])
         
-#         html = f"<h3>Summary</h3><p>{self.summary_text}</p>"
-#         if key_points:
-#             html += "<h3>Key Points</h3><ul>"
-#             for kp in key_points:
-#                 html += f"<li>{kp}</li>"
-#             html += "</ul>"
+        html = f"<h3>Summary</h3><p>{self.summary_text}</p>"
+        if key_points:
+            html += "<h3>Key Points</h3><ul>"
+            for kp in key_points:
+                html += f"<li>{kp}</li>"
+            html += "</ul>"
             
-#         if self.resources:
-#             html += "<h3>Recommended Resources</h3><ul>"
-#             for res in self.resources:
-#                 title = res.get("title", "Resource")
-#                 link = res.get("link", "#")
-#                 html += f"<li><a href='{link}' style='color: #89b4fa;'>{title}</a></li>"
-#             html += "</ul>"
+        if self.resources:
+            html += "<h3>Recommended Resources</h3><ul>"
+            for res in self.resources:
+                title = res.get("title", "Resource")
+                link = res.get("link", "#")
+                html += f"<li><a href='{link}' style='color: #89b4fa;'>{title}</a></li>"
+            html += "</ul>"
             
-#         self.content_browser.setHtml(html)
+        self.content_browser.setHtml(html)
+
+# pushed till here
 
 #     def set_loading(self, message="Searching..."):
 #         self.listening_timer.stop()
