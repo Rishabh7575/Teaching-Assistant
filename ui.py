@@ -184,28 +184,29 @@ class FloatingPanel(QWidget):
             
         self.content_browser.setHtml(html)
 
+
+    def set_loading(self, message="Searching..."):
+        self.listening_timer.stop()
+        self.set_recording_mode(False)
+        self.content_browser.setHtml(f"<h3 style='text-align:center; color:#f38ba8;'><br><br>{message}</h3>")
+
+    def set_recording_mode(self, is_recording):
+        if is_recording:
+            self.btn_copy.setVisible(False)
+            self.btn_cancel_rec.setVisible(True)
+            self.btn_stop_rec.setVisible(True)
+            self.show_listening_ui()
+        else:
+            self.btn_copy.setVisible(True)
+            self.btn_cancel_rec.setVisible(False)
+            self.btn_stop_rec.setVisible(False)
+
+    def show_listening_ui(self):
+        self.listen_dots = 0
+        self.listening_timer.start(500)
+        self.animate_listening()
+
 # pushed till here
-
-#     def set_loading(self, message="Searching..."):
-#         self.listening_timer.stop()
-#         self.set_recording_mode(False)
-#         self.content_browser.setHtml(f"<h3 style='text-align:center; color:#f38ba8;'><br><br>{message}</h3>")
-
-#     def set_recording_mode(self, is_recording):
-#         if is_recording:
-#             self.btn_copy.setVisible(False)
-#             self.btn_cancel_rec.setVisible(True)
-#             self.btn_stop_rec.setVisible(True)
-#             self.show_listening_ui()
-#         else:
-#             self.btn_copy.setVisible(True)
-#             self.btn_cancel_rec.setVisible(False)
-#             self.btn_stop_rec.setVisible(False)
-
-#     def show_listening_ui(self):
-#         self.listen_dots = 0
-#         self.listening_timer.start(500)
-#         self.animate_listening()
 
 #     def animate_listening(self):
 #         dots = "." * (self.listen_dots % 4)
