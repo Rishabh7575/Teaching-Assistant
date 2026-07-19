@@ -238,20 +238,20 @@ class FloatingPanel(QWidget):
         else:
             self.btn_pin.setText("📌 Pin")
 
-    # def hide_panel(self):
-    #     self.hide()
+    def hide_panel(self):
+        self.hide()
 
-    # def send_followup(self):
-    #     text = self.chat_input.text().strip()
-    #     if text:
-    #         self.signal_send_followup.emit(text)
-    #         self.chat_input.clear()
+    def send_followup(self):
+        text = self.chat_input.text().strip()
+        if text:
+            self.signal_send_followup.emit(text)
+            self.chat_input.clear()
 
-    # def copy_summary(self):
-    #     QApplication.clipboard().setText(self.summary_text)
+    def copy_summary(self):
+        QApplication.clipboard().setText(self.summary_text)
 
-    # def open_link(self, qurl):
-    #     webbrowser.open(qurl.toString())
+    def open_link(self, qurl):
+        webbrowser.open(qurl.toString())
 
 # pushed till here
 
