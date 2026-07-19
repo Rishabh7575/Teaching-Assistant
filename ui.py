@@ -206,53 +206,54 @@ class FloatingPanel(QWidget):
         self.listening_timer.start(500)
         self.animate_listening()
 
+
+    def animate_listening(self):
+        dots = "." * (self.listen_dots % 4)
+        mic_states = ["🎙️", "🎤", "🎙️", "🎤"]
+        state = mic_states[self.listen_dots % len(mic_states)]
+        self.content_browser.setHtml(
+            f"<div style='text-align:center; color:#a6e3a1; margin-top:80px;'>"
+            f"<span style='font-size: 48px;'>{state}</span>"
+            f"<h3>Voice Assistant Active</h3>"
+            f"<p style='font-size: 16px;'>Listening{dots}</p>"
+            f"<p style='color:#a6adc8; font-size: 12px;'>Speak now (auto-stops on 1.5s silence<br>or press hotkey again)</p>"
+            f"</div>"
+        )
+        self.listen_dots += 1
+
+    def show_transcribing_ui(self, message="Processing Speech..."):
+        self.listening_timer.stop()
+        self.content_browser.setHtml(
+            f"<div style='text-align:center; color:#f9e2af; margin-top:80px;'>"
+            f"<span style='font-size: 48px;'>⚙️</span>"
+            f"<h3>Transcribing</h3>"
+            f"<p style='font-size: 14px;'>{message}</p>"
+            f"</div>"
+        )
+
+    def toggle_pin(self):
+        self.pinned = self.btn_pin.isChecked()
+        if self.pinned:
+            self.btn_pin.setText("📍 Pinned")
+        else:
+            self.btn_pin.setText("📌 Pin")
+
+    # def hide_panel(self):
+    #     self.hide()
+
+    # def send_followup(self):
+    #     text = self.chat_input.text().strip()
+    #     if text:
+    #         self.signal_send_followup.emit(text)
+    #         self.chat_input.clear()
+
+    # def copy_summary(self):
+    #     QApplication.clipboard().setText(self.summary_text)
+
+    # def open_link(self, qurl):
+    #     webbrowser.open(qurl.toString())
+
 # pushed till here
-
-#     def animate_listening(self):
-#         dots = "." * (self.listen_dots % 4)
-#         mic_states = ["🎙️", "🎤", "🎙️", "🎤"]
-#         state = mic_states[self.listen_dots % len(mic_states)]
-#         self.content_browser.setHtml(
-#             f"<div style='text-align:center; color:#a6e3a1; margin-top:80px;'>"
-#             f"<span style='font-size: 48px;'>{state}</span>"
-#             f"<h3>Voice Assistant Active</h3>"
-#             f"<p style='font-size: 16px;'>Listening{dots}</p>"
-#             f"<p style='color:#a6adc8; font-size: 12px;'>Speak now (auto-stops on 1.5s silence<br>or press hotkey again)</p>"
-#             f"</div>"
-#         )
-#         self.listen_dots += 1
-
-#     def show_transcribing_ui(self, message="Processing Speech..."):
-#         self.listening_timer.stop()
-#         self.content_browser.setHtml(
-#             f"<div style='text-align:center; color:#f9e2af; margin-top:80px;'>"
-#             f"<span style='font-size: 48px;'>⚙️</span>"
-#             f"<h3>Transcribing</h3>"
-#             f"<p style='font-size: 14px;'>{message}</p>"
-#             f"</div>"
-#         )
-
-#     def toggle_pin(self):
-#         self.pinned = self.btn_pin.isChecked()
-#         if self.pinned:
-#             self.btn_pin.setText("📍 Pinned")
-#         else:
-#             self.btn_pin.setText("📌 Pin")
-
-#     def hide_panel(self):
-#         self.hide()
-
-#     def send_followup(self):
-#         text = self.chat_input.text().strip()
-#         if text:
-#             self.signal_send_followup.emit(text)
-#             self.chat_input.clear()
-
-#     def copy_summary(self):
-#         QApplication.clipboard().setText(self.summary_text)
-
-#     def open_link(self, qurl):
-#         webbrowser.open(qurl.toString())
 
 #     # Drag and resize window functionality
 #     def mousePressEvent(self, event):
