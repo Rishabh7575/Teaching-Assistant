@@ -279,22 +279,23 @@ class FloatingPanel(QWidget):
         pos = event.position()
         margin = 15
 
-# pushed till here
         
-#         # Update cursor shape when hovering near margins
-#         if event.buttons() == Qt.MouseButton.NoButton:
-#             on_right = pos.x() >= self.width() - margin
-#             on_bottom = pos.y() >= self.height() - margin
+        # Update cursor shape when hovering near margins
+        if event.buttons() == Qt.MouseButton.NoButton:
+            on_right = pos.x() >= self.width() - margin
+            on_bottom = pos.y() >= self.height() - margin
             
-#             if on_right and on_bottom:
-#                 self.setCursor(Qt.CursorShape.SizeFDiagCursor)
-#             elif on_right:
-#                 self.setCursor(Qt.CursorShape.SizeHorCursor)
-#             elif on_bottom:
-#                 self.setCursor(Qt.CursorShape.SizeVerCursor)
-#             else:
-#                 self.unsetCursor()
-#             return
+            if on_right and on_bottom:
+                self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+            elif on_right:
+                self.setCursor(Qt.CursorShape.SizeHorCursor)
+            elif on_bottom:
+                self.setCursor(Qt.CursorShape.SizeVerCursor)
+            else:
+                self.unsetCursor()
+            return
+
+# pushed till here
 
 #         if self.is_resizing and self.drag_position is not None:
 #             current_pos = event.globalPosition().toPoint()
