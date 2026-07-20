@@ -253,32 +253,33 @@ class FloatingPanel(QWidget):
     def open_link(self, qurl):
         webbrowser.open(qurl.toString())
 
-# pushed till here
 
-#     # Drag and resize window functionality
-#     def mousePressEvent(self, event):
-#         if event.button() == Qt.MouseButton.LeftButton:
-#             pos = event.position()
-#             margin = 15
-#             on_right = pos.x() >= self.width() - margin
-#             on_bottom = pos.y() >= self.height() - margin
+    # Drag and resize window functionality
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            pos = event.position()
+            margin = 15
+            on_right = pos.x() >= self.width() - margin
+            on_bottom = pos.y() >= self.height() - margin
             
-#             if on_right or on_bottom:
-#                 self.is_resizing = True
-#                 self.drag_position = event.globalPosition().toPoint()
-#                 if on_right and on_bottom:
-#                     self.resize_direction = "bottom-right"
-#                 elif on_right:
-#                     self.resize_direction = "right"
-#                 else:
-#                     self.resize_direction = "bottom"
-#             else:
-#                 self.is_resizing = False
-#                 self.old_pos = event.globalPosition().toPoint()
+            if on_right or on_bottom:
+                self.is_resizing = True
+                self.drag_position = event.globalPosition().toPoint()
+                if on_right and on_bottom:
+                    self.resize_direction = "bottom-right"
+                elif on_right:
+                    self.resize_direction = "right"
+                else:
+                    self.resize_direction = "bottom"
+            else:
+                self.is_resizing = False
+                self.old_pos = event.globalPosition().toPoint()
 
-#     def mouseMoveEvent(self, event):
-#         pos = event.position()
-#         margin = 15
+    def mouseMoveEvent(self, event):
+        pos = event.position()
+        margin = 15
+
+# pushed till here
         
 #         # Update cursor shape when hovering near margins
 #         if event.buttons() == Qt.MouseButton.NoButton:
