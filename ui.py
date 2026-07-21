@@ -163,11 +163,16 @@ class FloatingPanel(QWidget):
         """
         self.listening_timer.stop()
         self.set_recording_mode(False)
-        self.summary_text = data.get("topic_summary", "")
+        self.summary_text = data.get("topic_summary", data.get("Implementation", ""))
         key_points = data.get("key_points", [])
         self.resources = data.get("resources", [])
         
-        html = f"<h3>Summary</h3><p>{self.summary_text}</p>"
+        # Clean display without duplicate headers for DSA/SQL solutions
+        if "<b>Code:</b>" in self.summary_text or "<b>Analysis:</b>" in self.summary_text:
+            html = f"<div>{self.summary_text}</div>"
+        else:
+            html = f"<h3>Summary</h3><div>{self.summary_text}</div>"
+
         if key_points:
             html += "<h3>Key Points</h3><ul>"
             for kp in key_points:
@@ -248,7 +253,7 @@ class FloatingPanel(QWidget):
             self.chat_input.clear()
 
     def copy_summary(self):
-        QApplication.clipboard().setText(self.summary_text)
+        QApplication.clipboard().setText(self.content_browser.toPlainText())
 
     def open_link(self, qurl):
         webbrowser.open(qurl.toString())
@@ -297,31 +302,31 @@ class FloatingPanel(QWidget):
 
 # pushed till here
 
-#         if self.is_resizing and self.drag_position is not None:
-#             current_pos = event.globalPosition().toPoint()
-#             diff = current_pos - self.drag_position
-#             new_w = self.width()
-#             new_h = self.height()
+        if self.is_resizing and self.drag_position is not None:
+            current_pos = event.globalPosition().toPoint()
+            diff = current_pos - self.drag_position
+            new_w = self.width()
+            new_h = self.height()
             
-#             if "right" in self.resize_direction:
-#                 new_w = max(300, self.width() + diff.x())
-#             if "bottom" in self.resize_direction:
-#                 new_h = max(200, self.height() + diff.y())
+            if "right" in self.resize_direction:
+                new_w = max(300, self.width() + diff.x())
+            if "bottom" in self.resize_direction:
+                new_h = max(200, self.height() + diff.y())
                 
-#             self.resize(new_w, new_h)
-#             self.drag_position = current_pos
-#         elif self.old_pos is not None:
-#             delta = QPoint(event.globalPosition().toPoint() - self.old_pos)
-#             self.move(self.x() + delta.x(), self.y() + delta.y())
-#             self.old_pos = event.globalPosition().toPoint()
+            self.resize(new_w, new_h)
+            self.drag_position = current_pos
+        elif self.old_pos is not None:
+            delta = QPoint(event.globalPosition().toPoint() - self.old_pos)
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.old_pos = event.globalPosition().toPoint()
 
-#     def mouseReleaseEvent(self, event):
-#         if event.button() == Qt.MouseButton.LeftButton:
-#             self.old_pos = None
-#             self.is_resizing = False
-#             self.resize_direction = None
-#             self.drag_position = None
-#             self.unsetCursor()
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.old_pos = None
+            self.is_resizing = False
+            self.resize_direction = None
+            self.drag_position = None
+            self.unsetCursor()
 
 # class NotificationToaster(QWidget):
 #     def __init__(self, message="Searching... (3-5 seconds)"):
