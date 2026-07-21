@@ -328,34 +328,34 @@ class FloatingPanel(QWidget):
             self.drag_position = None
             self.unsetCursor()
 
-# class NotificationToaster(QWidget):
-#     def __init__(self, message="Searching... (3-5 seconds)"):
-#         super().__init__()
-#         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Tool)
-#         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+class NotificationToaster(QWidget):
+    def __init__(self, message="Searching... (3-5 seconds)"):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.Tool)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         
-#         # DWM Stealth: Exclude from screen capture
-#         hwnd = self.winId()
-#         try:
-#             ctypes.windll.user32.SetWindowDisplayAffinity(int(hwnd), 0x00000011)
-#         except Exception:
-#             pass
+        # DWM Stealth: Exclude from screen capture
+        hwnd = self.winId()
+        try:
+            ctypes.windll.user32.SetWindowDisplayAffinity(int(hwnd), 0x00000011)
+        except Exception:
+            pass
             
-#         self.setStyleSheet("""
-#             QWidget {
-#                 background-color: #f38ba8;
-#                 color: #1e1e2e;
-#                 border-radius: 10px;
-#                 padding: 10px;
-#                 font-family: "Segoe UI", sans-serif;
-#                 font-weight: bold;
-#             }
-#         """)
-#         layout = QVBoxLayout(self)
-#         self.label = QLabel(message)
-#         layout.addWidget(self.label)
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #f38ba8;
+                color: #1e1e2e;
+                border-radius: 10px;
+                padding: 10px;
+                font-family: "Segoe UI", sans-serif;
+                font-weight: bold;
+            }
+        """)
+        layout = QVBoxLayout(self)
+        self.label = QLabel(message)
+        layout.addWidget(self.label)
         
-#         # Position bottom right
-#         screen = QGuiApplication.primaryScreen().geometry()
-#         self.resize(250, 50)
-#         self.move(screen.width() - self.width() - 20, screen.height() - self.height() - 60)
+        # Position bottom right
+        screen = QGuiApplication.primaryScreen().geometry()
+        self.resize(250, 50)
+        self.move(screen.width() - self.width() - 20, screen.height() - self.height() - 60)
