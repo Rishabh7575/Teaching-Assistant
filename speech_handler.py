@@ -69,21 +69,21 @@ class OpenAIWhisperProvider(SpeechProvider):
         return response.json().get("text", "").strip()
 
 
-# class GoogleSpeechProvider(SpeechProvider):
-#     """
-#     Uses Google Cloud / SpeechRecognition API.
-#     """
-#     def transcribe(self, audio_file_path: str) -> str:
-#         try:
-#             import speech_recognition as sr
-#         except ImportError:
-#             raise ImportError("speech_recognition library is not installed.")
+class GoogleSpeechProvider(SpeechProvider):
+    """
+    Uses Google Cloud / SpeechRecognition API.
+    """
+    def transcribe(self, audio_file_path: str) -> str:
+        try:
+            import speech_recognition as sr
+        except ImportError:
+            raise ImportError("speech_recognition library is not installed.")
         
-#         recognizer = sr.Recognizer()
-#         with sr.AudioFile(audio_file_path) as source:
-#             audio_data = recognizer.record(source)
-#             text = recognizer.recognize_google(audio_data)
-#             return text.strip()
+        recognizer = sr.Recognizer()
+        with sr.AudioFile(audio_file_path) as source:
+            audio_data = recognizer.record(source)
+            text = recognizer.recognize_google(audio_data)
+            return text.strip()
 
 
 # class SpeechRouter:
