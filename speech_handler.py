@@ -42,31 +42,31 @@ class FasterWhisperProvider(SpeechProvider):
         return text.strip()
 
 
-# class OpenAIWhisperProvider(SpeechProvider):
-#     """
-#     Uses the OpenAI Whisper API.
-#     """
-#     def __init__(self, api_key: str = None):
-#         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
+class OpenAIWhisperProvider(SpeechProvider):
+    """
+    Uses the OpenAI Whisper API.
+    """
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
 
-#     def transcribe(self, audio_file_path: str) -> str:
-#         if not self.api_key:
-#             raise ValueError("OpenAI API Key is not set.")
+    def transcribe(self, audio_file_path: str) -> str:
+        if not self.api_key:
+            raise ValueError("OpenAI API Key is not set.")
         
-#         url = "https://api.openai.com/v1/audio/transcriptions"
-#         headers = {
-#             "Authorization": f"Bearer {self.api_key}"
-#         }
-#         files = {
-#             "file": (os.path.basename(audio_file_path), open(audio_file_path, "rb"), "audio/wav"),
-#         }
-#         data = {
-#             "model": "whisper-1"
-#         }
+        url = "https://api.openai.com/v1/audio/transcriptions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}"
+        }
+        files = {
+            "file": (os.path.basename(audio_file_path), open(audio_file_path, "rb"), "audio/wav"),
+        }
+        data = {
+            "model": "whisper-1"
+        }
         
-#         response = requests.post(url, headers=headers, files=files, data=data, timeout=20)
-#         response.raise_for_status()
-#         return response.json().get("text", "").strip()
+        response = requests.post(url, headers=headers, files=files, data=data, timeout=20)
+        response.raise_for_status()
+        return response.json().get("text", "").strip()
 
 
 # class GoogleSpeechProvider(SpeechProvider):
